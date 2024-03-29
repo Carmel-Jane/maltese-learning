@@ -1,5 +1,6 @@
 const pool = require('../connection');
-const { greetingData, animalData, fruitVegData } = require('../data/development-data/index');
+const devData = require('../data/development-data/index');
+const testData = require('../data/test-data/index');
 
 function insertData(table, data) {
     const values = data.map(item => `('${item.english}', '${item.maltese}')`).join(', ');
@@ -7,7 +8,8 @@ function insertData(table, data) {
     return pool.query(query);
   }
 
-const seed = ({greetingData, animalData, fruitVegData}) => {
+const seed = (data) => {
+  const {greetingDataTest: greetingData, animalDataTest: animalData, fruitVegDataTest: fruitVegData} = data;
     return pool
     .query(`DROP TABLE IF EXISTS greetings;`)
     .then(() => {
@@ -29,4 +31,4 @@ const seed = ({greetingData, animalData, fruitVegData}) => {
     });
 }
 
-module.exports = seed;
+module.exports = {seed, devData, testData}
