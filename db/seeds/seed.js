@@ -1,6 +1,11 @@
-const pool = require('./connection');
-const { greetingData, animalData, fruitVegData } = require('../data/development-data');
-const { insertData } = require('../utils');
+const pool = require('../connection');
+const { greetingData, animalData, fruitVegData } = require('../data/development-data/index');
+
+function insertData(table, data) {
+    const values = data.map(item => `('${item.english}', '${item.maltese}')`).join(', ');
+    const query = `INSERT INTO ${table} (english, maltese) VALUES ${values};`;
+    return pool.query(query);
+  }
 
 const seed = ({greetingData, animalData, fruitVegData}) => {
     return pool
