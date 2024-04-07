@@ -1,8 +1,8 @@
 const db = require("../db/connection");
-function fetchALlUsers() {
+function fetchAllUsers() {
   return db.query(`SELECT * FROM users;`).then(({ rows }) => {
     return rows;
   });
 }
 
-module.exports = { fetchALlUsers };
+module.exports = { fetchAllUsers };

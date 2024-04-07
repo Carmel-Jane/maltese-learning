@@ -1,5 +1,15 @@
 {
 "GET /api": {
     "description": "serves up a json representation of all the available endpoints of the api"
-  }
+  },
+  "GET /api/users": {
+    "description": "serves an array of all users",
+    "queries": [],
+    "exampleResponse":  [
+      {"username": "testuser1", 
+      "name":"Test 1", 
+      "password": "password1",
+      "savedWords": []
+  }]
+}
 }
