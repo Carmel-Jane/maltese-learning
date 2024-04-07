@@ -19,3 +19,24 @@ describe("GET /api", () => {
         });
     });
   });
+
+  describe("GET /api/users", () => {
+    test("should return an array of all users", () => {
+      return request(app)
+        .get("/api/users")
+        .expect(200)
+        .then((res) => {
+          expect(res.body.users).toHaveLength(4);
+          res.body.users.forEach((user) => {
+            expect(user).toEqual(
+              expect.objectContaining({
+                username: expect.any(String),
+                name: expect.any(String),
+                password: expect.any(String),
+                savedWords: expect.any(Array),
+              })
+            );
+          });
+        });
+    });
+  })
