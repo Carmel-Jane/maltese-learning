@@ -1,0 +1,22 @@
+module.exports=[
+    {username: 'testuser1', 
+    name:'Test 1', 
+    password: 'password1',
+    savedWords: [],
+},
+{username: 'testuser2', 
+    name:'Test 2', 
+    password: 'password2',
+    savedWords: [],
+},
+{username: 'testuser3', 
+    name:'Test 3', 
+    password: 'password3',
+    savedWords: [],
+},
+{username: 'testuser4', 
+    name:'Test 4', 
+    password: 'password4',
+    savedWords: [],
+}
+]
