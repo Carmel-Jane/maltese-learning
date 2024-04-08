@@ -3,7 +3,6 @@ const devData = require('../data/development-data/index');
 const testData = require('../data/test-data/index');
 
 function insertData(table, data) {
-  console.log(data)
   if (table === 'users') {
     const values = data.map(item => `('${item.username}', '${item.name}', '${item.password}', ${item.savedWords ? `ARRAY['${item.savedWords.join("','")}']` : 'NULL'})`).join(', ');
     const query = `INSERT INTO ${table} (username, name, password, saved_words) VALUES ${values};`;

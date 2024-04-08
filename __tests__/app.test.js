@@ -50,3 +50,30 @@ describe("GET /api", () => {
       });
         })
   })
+  describe("GET /api/users/:username", () => {
+    test("should return a user object by username", () => {
+      return request(app)
+        .get("/api/users/testuser1")
+        .expect(200)
+        .then((res) => {
+          expect(res.body.user).toEqual(
+            expect.objectContaining({
+              username: "testuser1",
+              name: "Test 1",
+              password: "password1",
+              saved_words: ["1", "2"],
+            })
+          );
+        });
+    });
+    describe("error handling for GET /api/users/:username", () => {
+      test("should return 404 for a non-existent username", () => {
+        return request(app)
+          .get("/api/users/carmel")
+          .expect(404)
+          .then((res) => {
+            expect(res.body.msg).toBe("404 Error. This page doesn't exist");
+          });
+      });
+    });
+  })
