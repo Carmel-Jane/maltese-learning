@@ -11,5 +11,15 @@
       "password": "password1",
       "savedWords": []
   }]
+},
+"GET /api/users/:username": {
+    "description": "serves an object of a single user",
+    "queries": [],
+    "exampleResponse":  {
+      "username": "testuser1", 
+      "name":"Test 1", 
+      "password": "password1",
+      "savedWords": []
+  }
 }
 }
