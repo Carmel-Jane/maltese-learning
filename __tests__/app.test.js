@@ -115,3 +115,18 @@ describe("POST /api/users", () => {
     });
   });
 });
+describe("DELETE /api/users/:username", () => {
+  test("should delete a user by username", () => {
+    return request(app)
+      .delete("/api/users/testuser1")
+      .expect(204)
+      .then(() => {
+        return request(app)
+          .get("/api/users")
+          .expect(200)
+          .then((res) => {
+            expect(res.body.users).toHaveLength(3);
+          });
+      });
+  })
+})

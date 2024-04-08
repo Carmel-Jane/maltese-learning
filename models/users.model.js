@@ -15,4 +15,10 @@ function addUser(username, name, password) {
   });
 }
 
-module.exports = { fetchAllUsers, fetchUserByUsername, addUser };
+function removeUser(username) {
+  return db.query(`DELETE FROM users WHERE username = $1;`, [username]).then(({ rows }) => {
+    return rows[0];
+  });
+}
+
+module.exports = { fetchAllUsers, fetchUserByUsername, addUser, removeUser };
