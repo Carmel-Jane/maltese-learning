@@ -9,4 +9,10 @@ function fetchUserByUsername(username) {
     return rows[0];
   });
 }
-module.exports = { fetchAllUsers, fetchUserByUsername };
+function addUser(username, name, password) {
+  return db.query(`INSERT INTO users (username, name, password, saved_words) VALUES ($1, $2, $3, ARRAY[]::text[]) RETURNING *;`, [username, name, password]).then(({ rows }) => {
+    return rows[0];
+  });
+}
+
+module.exports = { fetchAllUsers, fetchUserByUsername, addUser };

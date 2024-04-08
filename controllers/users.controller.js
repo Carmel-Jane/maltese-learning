@@ -1,4 +1,4 @@
-const {fetchAllUsers, fetchUserByUsername} = require("../models/users.model");
+const {fetchAllUsers, fetchUserByUsername, addUser} = require("../models/users.model");
 
 function getAllUsers(req, res, next){
     fetchAllUsers().then((users) => {
@@ -14,4 +14,16 @@ function getAllUsers(req, res, next){
       }
     }).catch(next); 
 }
-module.exports = { getAllUsers, getUserByUsername };
+function postUser (req, res, next){
+  const { username, name, password } = req.body;
+  if (!username || !name || !password) {
+    res.status(400).json({ msg: "400 Error. Bad request" });
+  } else {
+    addUser(username, name, password)
+      .then(user => {
+        res.status(201).json({ user });
+      })
+      .catch(next);
+  }
+};
+module.exports = { getAllUsers, getUserByUsername, postUser };

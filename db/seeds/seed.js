@@ -4,7 +4,7 @@ const testData = require('../data/test-data/index');
 
 function insertData(table, data) {
   if (table === 'users') {
-    const values = data.map(item => `('${item.username}', '${item.name}', '${item.password}', ${item.savedWords ? `ARRAY['${item.savedWords.join("','")}']` : 'NULL'})`).join(', ');
+    const values = data.map(item => `('${item.username}', '${item.name}', '${item.password}', ${Array.isArray(item.savedWords) && item.savedWords.length > 0 ? `ARRAY['${item.savedWords.join("','")}']` : 'ARRAY[]'})`).join(', ');
     const query = `INSERT INTO ${table} (username, name, password, saved_words) VALUES ${values};`;
     return pool.query(query);
   } 
