@@ -60,8 +60,8 @@ describe("GET /api/users/:username", () => {
           expect.objectContaining({
             username: "testuser1",
             name: "Test 1",
-            password: "password1",
-            saved_words: ["1", "2"],
+            password: expect.stringMatching(/^\$2b\$/),
+            saved_words: ["1", "2"]
           })
         );
       });
@@ -77,27 +77,27 @@ describe("GET /api/users/:username", () => {
     });
   });
 });
-describe("POST /api/users", () => {
-  test("should post a new user object", () => {
-    return request(app)
-      .post("/api/users")
-      .send({
-        username: "carmel",
-        name: "Carmel",
-        password: "password",
-        saved_words: [],
-      })
-      .expect(201)
-      .then((res) => {
-        expect(res.body.user).toEqual(
-          expect.objectContaining({
-            username: "carmel",
-            name: "Carmel",
-            password: "password",
-            saved_words: [],
-          })
-        );
-      });
+test("should post a new user object", () => {
+  return request(app)
+    .post("/api/users")
+    .send({
+      username: "carmel",
+      name: "Carmel",
+      password: "password",
+      saved_words: [],
+    })
+    .expect(201)
+    .then((res) => {
+      const user = res.body.user;
+      delete user.password; 
+      expect(user).toEqual(
+        expect.objectContaining({
+          username: "carmel",
+          name: "Carmel",
+          saved_words: [],
+        })
+      );
+    });
   });
   describe("error handling for POST /api/users", () => {
     test("should return 400 for a missing required field", () => {
@@ -114,7 +114,7 @@ describe("POST /api/users", () => {
         });
     });
   });
-});
+
 describe("DELETE /api/users/:username", () => {
   test("should delete a user by username", () => {
     return request(app)
@@ -192,7 +192,6 @@ describe("GET /api/fruitveg", () => {
       .get("/api/fruitveg")
       .expect(200)
       .then((res) => {
-        console.log(res.body)
         expect(res.body.fruitveg).toHaveLength(9);
         res.body.fruitveg.forEach((plant) => {
           expect(plant).toEqual(
@@ -215,5 +214,21 @@ describe("GET /api/fruitveg", () => {
     });
   });
 })
+describe('POST /login', () => {
+  it('should respond with a token for valid credentials', async () => {
+    const response = await request(app)
+      .post('/api/users/login')
+      .send({ username: 'testuser1', password: 'password1' });
 
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty('token');
+  });
 
+  it('should respond with 400 for invalid credentials', async () => {
+    const response = await request(app)
+      .post('/api/users/login')
+      .send({ username: 'testuser1', password: 'wrongPassword' });
+
+    expect(response.statusCode).toBe(400);
+  });
+});

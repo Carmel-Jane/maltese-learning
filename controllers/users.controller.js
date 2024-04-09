@@ -1,4 +1,8 @@
-const {fetchAllUsers, fetchUserByUsername, addUser, removeUser} = require("../models/users.model");
+const {fetchAllUsers, fetchUserByUsername, addUser, removeUser, loginUser} = require("../models/users.model");
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
+
+const secretKey = process.env.JWT_SECRET;
 
 function getAllUsers(req, res, next){
     fetchAllUsers().then((users) => {
@@ -25,10 +29,29 @@ function postUser (req, res, next){
       })
       .catch(next);
   }
-};
+}
+function postLogin (req, res, next){
+  const { username, password } = req.body;
+  if (!username || !password) {
+    res.status(400).json({ msg: "400 Error. Bad request" });
+  } else {
+    loginUser(username, password)
+      .then(user => {
+        const token = jwt.sign({ id: user.id }, secretKey);
+        res.status(200).json({ token });
+      })
+      .catch(err => {
+        if (err.message === 'Invalid username or password') {
+          res.status(400).json({ msg: err.message });
+        } else {
+          next(err);
+        }
+      });
+  }
+}
 function deleteUser (req, res, next){
   removeUser(req.params.username).then(() => {
     res.status(204).send();
   }).catch(next);
 }
-module.exports = { getAllUsers, getUserByUsername, postUser, deleteUser };
+module.exports = { getAllUsers, getUserByUsername, postUser, deleteUser, postLogin };
