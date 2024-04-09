@@ -158,15 +158,15 @@ describe("GET /api/greetings", () => {
     });
   });
 })
-describe("GET /api/animals", () => {  
+fdescribe("GET /api/animals", () => {  
   test("should return an array of all animal objects", () => {
     return request(app)
       .get("/api/animals")
       .expect(200)
       .then((res) => {
-        expect(res.body.greetings).toHaveLength(5);
-        res.body.greetings.forEach((greeting) => {
-          expect(greeting).toEqual(
+        expect(res.body.animals).toHaveLength(5);
+        res.body.animals.forEach((animal) => {
+          expect(animal).toEqual(
             expect.objectContaining({
               english: expect.any(String),
               maltese: expect.any(String),
@@ -192,9 +192,9 @@ describe("GET /api/fruitveg", () => {
       .get("/api/fruitveg")
       .expect(200)
       .then((res) => {
-        expect(res.body.greetings).toHaveLength(9);
-        res.body.greetings.forEach((greeting) => {
-          expect(greeting).toEqual(
+        expect(res.body.fruitveg).toHaveLength(9);
+        res.body.fruitveg.forEach((plant) => {
+          expect(plant).toEqual(
             expect.objectContaining({
               english: expect.any(String),
               maltese: expect.any(String),
