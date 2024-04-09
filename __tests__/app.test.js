@@ -158,7 +158,7 @@ describe("GET /api/greetings", () => {
     });
   });
 })
-fdescribe("GET /api/animals", () => {  
+describe("GET /api/animals", () => {  
   test("should return an array of all animal objects", () => {
     return request(app)
       .get("/api/animals")
@@ -192,6 +192,7 @@ describe("GET /api/fruitveg", () => {
       .get("/api/fruitveg")
       .expect(200)
       .then((res) => {
+        console.log(res.body)
         expect(res.body.fruitveg).toHaveLength(9);
         res.body.fruitveg.forEach((plant) => {
           expect(plant).toEqual(
