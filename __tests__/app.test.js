@@ -130,3 +130,89 @@ describe("DELETE /api/users/:username", () => {
       });
   })
 })
+describe("GET /api/greetings", () => {  
+  test("should return an array of all greetings objects", () => {
+    return request(app)
+      .get("/api/greetings")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.greetings).toHaveLength(3);
+        res.body.greetings.forEach((greeting) => {
+          expect(greeting).toEqual(
+            expect.objectContaining({
+              english: expect.any(String),
+              maltese: expect.any(String),
+            })
+          );
+        });
+      });
+  })
+  describe("error handling for GET /api/greetings", () => {
+    test("should return 404 for an invalid path", () => {
+      return request(app)
+        .get("/api/greetingss")
+        .expect(404)
+        .then((res) => {
+          expect(res.body.msg).toBe("404 Error. This page doesn't exist");
+        });
+    });
+  });
+})
+describe("GET /api/animals", () => {  
+  test("should return an array of all animal objects", () => {
+    return request(app)
+      .get("/api/animals")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.greetings).toHaveLength(5);
+        res.body.greetings.forEach((greeting) => {
+          expect(greeting).toEqual(
+            expect.objectContaining({
+              english: expect.any(String),
+              maltese: expect.any(String),
+            })
+          );
+        });
+      });
+  })
+  describe("error handling for GET /api/animals", () => {
+    test("should return 404 for an invalid path", () => {
+      return request(app)
+        .get("/api/animalls")
+        .expect(404)
+        .then((res) => {
+          expect(res.body.msg).toBe("404 Error. This page doesn't exist");
+        });
+    });
+  });
+})
+describe("GET /api/fruitveg", () => {
+  test("should return an array of all fruitveg objects", () => {
+    return request(app)
+      .get("/api/fruitveg")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.greetings).toHaveLength(9);
+        res.body.greetings.forEach((greeting) => {
+          expect(greeting).toEqual(
+            expect.objectContaining({
+              english: expect.any(String),
+              maltese: expect.any(String),
+            })
+          );
+        });
+      });
+  })
+  describe("error handling for GET /api/fruitveg", () => {
+    test("should return 404 for an invalid path", () => {
+      return request(app)
+        .get("/api/fruitvegg")
+        .expect(404)
+        .then((res) => {
+          expect(res.body.msg).toBe("404 Error. This page doesn't exist");
+        });
+    });
+  });
+})
+
+
