@@ -39,6 +39,16 @@ describe("GET /api/users", () => {
         });
       });
   });
+  test("passwords should be hashed in this array", async () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then((res) => {
+        res.body.users.forEach((user) => {
+          expect(user.password).toEqual(expect.stringMatching(/^\$2b\$/));
+        });
+      });
+  });
   describe("error handling for GET /api/users", () => {
     test("should return 404 for an invalid path", () => {
       return request(app)
